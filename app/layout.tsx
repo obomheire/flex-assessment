@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Flex Living - Reviews Dashboard",
   description: "Manage and display guest reviews for Flex Living properties",
+  icons: {
+    icon: "/flex-logo.jpeg",
+  },
 };
 
 export default function RootLayout({
