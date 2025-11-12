@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
@@ -9,9 +10,10 @@ import { calculateAverageRating } from '@/lib/reviewHelpers';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function PropertyDetailPage({ params }: { params: { slug: string } }) {
+export default function PropertyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   const { data: listingsData } = useSWR('/api/listings', fetcher);
-  const listing = listingsData?.data?.find((l: any) => l.slug === params.slug);
+  const listing = listingsData?.data?.find((l: any) => l.slug === slug);
   
   const { data: reviewsData } = useSWR(
     listing ? `/api/reviews?listingId=${listing.id}&isApproved=true` : null,
