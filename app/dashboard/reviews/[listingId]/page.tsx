@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { RatingStars } from '@/components/property/RatingStars';
@@ -12,8 +12,9 @@ import { parseCategories, formatCategoryName } from '@/lib/reviewHelpers';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function ListingReviewsPage({ params }: { params: { listingId: string } }) {
-  const { data: reviewsData, mutate } = useSWR(`/api/reviews?listingId=${params.listingId}`, fetcher);
+export default function ListingReviewsPage({ params }: { params: Promise<{ listingId: string }> }) {
+  const { listingId } = use(params);
+  const { data: reviewsData, mutate } = useSWR(`/api/reviews?listingId=${listingId}`, fetcher);
   const [channelFilter, setChannelFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
