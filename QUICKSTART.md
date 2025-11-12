@@ -24,7 +24,7 @@ Create a `.env.local` file (or set environment variables):
 ```bash
 # Create .env.local with required variables
 cat > .env.local << 'EOF'
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 AUTH_SECRET="your-secret-key-change-in-production"
 NEXTAUTH_URL="http://localhost:3000"
 EOF
@@ -32,10 +32,12 @@ EOF
 
 Or simply export them:
 ```bash
-export DATABASE_URL="file:./dev.db"
+export DATABASE_URL="postgresql://user:password@host:5432/dbname"
 export AUTH_SECRET="your-secret-key-here"
 export NEXTAUTH_URL="http://localhost:3000"
 ```
+
+**Note**: Replace the PostgreSQL connection string with your actual database credentials.
 
 ### 3. Set Up Database
 ```bash

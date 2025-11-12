@@ -22,7 +22,7 @@ A modern, full-stack reviews management system built with Next.js 16, enabling p
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -33,10 +33,12 @@ npm install
 
 # 2. Create .env.local file with required variables
 cat > .env.local << 'EOF'
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 AUTH_SECRET="your-secret-key-change-in-production"
 NEXTAUTH_URL="http://localhost:3000"
 EOF
+
+# Note: Replace the PostgreSQL connection string with your actual database credentials
 
 # 3. Run database migrations
 npx prisma migrate dev
@@ -53,6 +55,7 @@ Visit **http://localhost:3000** to see the application.
 ## 🔐 Demo Credentials
 
 **Manager Login**:
+
 - Email: `manager@flex.com`
 - Password: `demo123`
 
@@ -84,33 +87,33 @@ flex-assessment/
 
 ## 🛠️ Tech Stack
 
-| Category | Technology | Purpose |
-|----------|-----------|---------|
-| **Framework** | Next.js 16 | Full-stack React framework |
-| **Language** | TypeScript | Type safety |
-| **Database** | SQLite + Prisma | ORM with type-safe queries |
-| **Auth** | NextAuth.js v5 | Authentication & authorization |
-| **Styling** | Tailwind CSS v4 | Utility-first CSS |
-| **Data Fetching** | SWR | Client-side data fetching with cache |
-| **Charts** | Recharts | React-based charting library |
-| **Utilities** | date-fns, axios | Date formatting & HTTP client |
+| Category          | Technology          | Purpose                              |
+| ----------------- | ------------------- | ------------------------------------ |
+| **Framework**     | Next.js 16          | Full-stack React framework           |
+| **Language**      | TypeScript          | Type safety                          |
+| **Database**      | PostgreSQL + Prisma | ORM with type-safe queries           |
+| **Auth**          | NextAuth.js v5      | Authentication & authorization       |
+| **Styling**       | Tailwind CSS v4     | Utility-first CSS                    |
+| **Data Fetching** | SWR                 | Client-side data fetching with cache |
+| **Charts**        | Recharts            | React-based charting library         |
+| **Utilities**     | date-fns, axios     | Date formatting & HTTP client        |
 
 ## 📡 API Endpoints
 
 ### Public Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/reviews/hostaway` | Fetch reviews in Hostaway API format |
-| GET | `/api/listings` | Get all properties with stats |
-| GET | `/api/reviews/google` | Google Places API exploration |
+| Method | Endpoint                | Description                          |
+| ------ | ----------------------- | ------------------------------------ |
+| GET    | `/api/reviews/hostaway` | Fetch reviews in Hostaway API format |
+| GET    | `/api/listings`         | Get all properties with stats        |
+| GET    | `/api/reviews/google`   | Google Places API exploration        |
 
 ### Protected Endpoints (Authentication Required)
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/reviews` | Fetch reviews with advanced filtering |
-| PATCH | `/api/reviews/approve` | Approve/reject reviews |
+| Method | Endpoint               | Description                           |
+| ------ | ---------------------- | ------------------------------------- |
+| GET    | `/api/reviews`         | Fetch reviews with advanced filtering |
+| PATCH  | `/api/reviews/approve` | Approve/reject reviews                |
 
 ### Example API Request
 
@@ -141,6 +144,7 @@ Comprehensive documentation is available in [`docs/reviews-dashboard.md`](docs/r
 ### 1. Review Management Dashboard
 
 Managers can:
+
 - View all properties with aggregated review statistics
 - Sort by rating, review count, or name
 - Click through to detailed property review pages
@@ -165,6 +169,7 @@ Managers can:
 ### 4. Google Reviews Integration
 
 Explored Google Places API integration:
+
 - ✅ **Documented limitations** (5 reviews max, no pagination)
 - ✅ **Cost analysis** ($17 per 1,000 requests)
 - ✅ **Implementation guide** available in API route
@@ -175,16 +180,19 @@ Explored Google Places API integration:
 ### Manual Testing
 
 1. **Login Flow**:
+
    - Visit http://localhost:3000/login
    - Use demo credentials
    - Verify redirect to dashboard
 
 2. **Dashboard**:
+
    - View properties list
    - Test sorting and filtering
    - Check stats accuracy
 
 3. **Review Management**:
+
    - Navigate to a property's reviews
    - Toggle approval status
    - Verify filters work correctly
@@ -253,6 +261,7 @@ The application uses Flex Living's teal/turquoise brand colors:
 - **Accent**: `#14b8a6` (Teal 500)
 
 Custom CSS includes:
+
 - Branded scrollbars
 - Smooth transitions
 - Focus states
@@ -285,27 +294,18 @@ vercel
 ### Environment Variables for Production
 
 ```env
-DATABASE_URL="postgresql://..."  # Use PostgreSQL in production
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 NEXTAUTH_URL="https://your-domain.com"
 NEXTAUTH_SECRET="<generate-with-openssl-rand-base64-32>"
 HOSTAWAY_ACCOUNT_ID="61148"
 HOSTAWAY_API_KEY="f94377ebbbb479490bb3ec364649168dc443dda2e4830facaf5de2e74ccc9152"
 ```
 
-### Migrate to PostgreSQL (Production)
+### Deploy Migrations to Production
 
-1. Update `prisma/schema.prisma`:
-   ```prisma
-   datasource db {
-     provider = "postgresql"
-     url      = env("DATABASE_URL")
-   }
-   ```
-
-2. Run migrations:
-   ```bash
-   npx prisma migrate deploy
-   ```
+```bash
+npx prisma migrate deploy
+```
 
 ## 📝 License
 
@@ -322,6 +322,7 @@ MIT License - see LICENSE file for details
 ## 📧 Support
 
 For questions or issues:
+
 - **Documentation**: See `docs/reviews-dashboard.md`
 - **Issues**: Open an issue on GitHub
 - **Email**: support@theflex.global

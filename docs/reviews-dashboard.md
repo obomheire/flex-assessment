@@ -39,27 +39,30 @@ The Flex Living Reviews Dashboard is a full-stack Next.js application that enabl
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd flex-assessment
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
-   
+
    Create a `.env` file in the project root:
+
    ```env
-   DATABASE_URL="file:./dev.db"
+   DATABASE_URL="postgresql://user:password@host:5432/dbname"
    NEXTAUTH_URL="http://localhost:3000"
    NEXTAUTH_SECRET="your-secret-key-here"
    HOSTAWAY_ACCOUNT_ID="61148"
@@ -67,18 +70,22 @@ The Flex Living Reviews Dashboard is a full-stack Next.js application that enabl
    GOOGLE_PLACES_API_KEY=""  # Optional - for Google Reviews exploration
    ```
 
+   **Note**: Replace the PostgreSQL connection string with your actual database credentials.
+
 4. **Run database migrations**
+
    ```bash
-   export DATABASE_URL="file:./dev.db"
    npx prisma migrate dev
    ```
 
 5. **Seed the database**
+
    ```bash
    npm run db:seed
    ```
 
 6. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -100,50 +107,50 @@ The Flex Living Reviews Dashboard is a full-stack Next.js application that enabl
 
 ### Framework & Core
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **Next.js** | 16.0+ | App Router for modern React patterns, built-in API routes, SSR/SSG capabilities, excellent DX |
-| **TypeScript** | 5.0+ | Type safety, better IDE support, reduced runtime errors |
-| **React** | 19.0+ | Industry standard, excellent ecosystem, component reusability |
+| Technology     | Version | Rationale                                                                                     |
+| -------------- | ------- | --------------------------------------------------------------------------------------------- |
+| **Next.js**    | 16.0+   | App Router for modern React patterns, built-in API routes, SSR/SSG capabilities, excellent DX |
+| **TypeScript** | 5.0+    | Type safety, better IDE support, reduced runtime errors                                       |
+| **React**      | 19.0+   | Industry standard, excellent ecosystem, component reusability                                 |
 
 ### Database & ORM
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **SQLite** | - | Zero-config, file-based, perfect for demos and rapid prototyping. Easy to switch to PostgreSQL for production |
-| **Prisma** | 6.19+ | Type-safe database access, excellent migrations, intuitive schema definition |
+| Technology     | Version | Rationale                                                                                          |
+| -------------- | ------- | -------------------------------------------------------------------------------------------------- |
+| **PostgreSQL** | -       | Production-ready relational database with excellent performance, ACID compliance, and JSON support |
+| **Prisma**     | 6.19+   | Type-safe database access, excellent migrations, intuitive schema definition                       |
 
 ### Authentication
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
+| Technology      | Version  | Rationale                                                                                |
+| --------------- | -------- | ---------------------------------------------------------------------------------------- |
 | **NextAuth.js** | 5.0 beta | Industry standard for Next.js auth, flexible providers, JWT sessions, middleware support |
-| **bcryptjs** | 3.0+ | Secure password hashing with configurable work factor |
+| **bcryptjs**    | 3.0+     | Secure password hashing with configurable work factor                                    |
 
 ### Data Fetching & State
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **SWR** | 2.3+ | Lightweight, cache-first, auto-revalidation, optimistic UI, perfect fit for Next.js |
+| Technology | Version | Rationale                                                                           |
+| ---------- | ------- | ----------------------------------------------------------------------------------- |
+| **SWR**    | 2.3+    | Lightweight, cache-first, auto-revalidation, optimistic UI, perfect fit for Next.js |
 
 ### Styling
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **Tailwind CSS** | 4.0+ | Utility-first, highly customizable, small bundle size, excellent DX |
+| Technology       | Version | Rationale                                                           |
+| ---------------- | ------- | ------------------------------------------------------------------- |
+| **Tailwind CSS** | 4.0+    | Utility-first, highly customizable, small bundle size, excellent DX |
 
 ### Charts & Visualization
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **Recharts** | 3.4+ | Built on D3, declarative API, React-native, customizable, lighter than alternatives |
+| Technology   | Version | Rationale                                                                           |
+| ------------ | ------- | ----------------------------------------------------------------------------------- |
+| **Recharts** | 3.4+    | Built on D3, declarative API, React-native, customizable, lighter than alternatives |
 
 ### Utilities
 
-| Technology | Version | Rationale |
-|------------|---------|-----------|
-| **date-fns** | 4.1+ | Modular date utilities, tree-shakeable, better than moment.js |
-| **axios** | 1.13+ | Promise-based HTTP client, excellent error handling |
+| Technology   | Version | Rationale                                                     |
+| ------------ | ------- | ------------------------------------------------------------- |
+| **date-fns** | 4.1+    | Modular date utilities, tree-shakeable, better than moment.js |
+| **axios**    | 1.13+   | Promise-based HTTP client, excellent error handling           |
 
 ---
 
@@ -186,11 +193,13 @@ flex-assessment/
 ### Data Flow
 
 1. **Authentication Flow**:
+
    ```
    User Login → NextAuth → JWT Token → Middleware → Protected Routes
    ```
 
 2. **Review Approval Flow**:
+
    ```
    Dashboard → Toggle → PATCH /api/reviews/approve → Database → UI Update (SWR)
    ```
@@ -209,10 +218,12 @@ flex-assessment/
 **Purpose**: Fetch and normalize reviews in Hostaway API format (spec-compliant)
 
 **Query Parameters**:
+
 - `listingId` (optional): Filter by listing ID
 - `status` (optional): Filter by status (default: "published")
 
 **Response**:
+
 ```json
 {
   "status": "success",
@@ -240,6 +251,7 @@ flex-assessment/
 **Purpose**: Fetch all reviews with advanced filtering
 
 **Query Parameters**:
+
 - `rating` (number): Minimum rating filter
 - `channel` (string): Filter by channel (Hostaway, Airbnb, Booking.com)
 - `listingId` (number): Filter by listing ID
@@ -250,6 +262,7 @@ flex-assessment/
 - `limit` (number): Items per page (default: 50)
 
 **Response**:
+
 ```json
 {
   "status": "success",
@@ -270,6 +283,7 @@ flex-assessment/
 **Authentication**: Required (JWT via NextAuth)
 
 **Request Body**:
+
 ```json
 {
   "reviewId": "clx123abc",
@@ -278,10 +292,13 @@ flex-assessment/
 ```
 
 **Response**:
+
 ```json
 {
   "status": "success",
-  "data": { /* updated review */ }
+  "data": {
+    /* updated review */
+  }
 }
 ```
 
@@ -290,9 +307,11 @@ flex-assessment/
 **Purpose**: Fetch all listings with aggregated stats
 
 **Query Parameters**:
+
 - `includeReviews` (boolean): Include full review data (default: false)
 
 **Response**:
+
 ```json
 {
   "status": "success",
@@ -318,14 +337,18 @@ flex-assessment/
 **Purpose**: Explore Google Places API integration
 
 **Query Parameters**:
+
 - `placeId` (string): Google Place ID (required if API key is set)
 
 **Response** (without API key):
+
 ```json
 {
   "status": "requires_setup",
   "message": "Google Places API integration requires configuration",
-  "documentation": { /* detailed setup guide */ }
+  "documentation": {
+    /* detailed setup guide */
+  }
 }
 ```
 
@@ -406,11 +429,13 @@ Google Reviews integration via the **Google Places API** is **technically feasib
 **Endpoint**: `GET https://maps.googleapis.com/maps/api/place/details/json`
 
 **Parameters**:
+
 - `place_id`: Unique identifier for the location
 - `fields`: `reviews,rating,user_ratings_total`
 - `key`: API key
 
 **Response Structure**:
+
 ```json
 {
   "result": {
@@ -432,14 +457,14 @@ Google Reviews integration via the **Google Places API** is **technically feasib
 
 ### Limitations
 
-| Limitation | Impact |
-|------------|--------|
-| **Maximum 5 reviews per request** | Cannot retrieve complete review history |
-| **No pagination** | Stuck with "most relevant" 5 reviews only |
-| **No filtering** | Cannot filter by date, rating, or other criteria |
-| **Not real-time** | Reviews may have significant delays |
-| **Rate limits** | 100 requests per 100 seconds per project |
-| **No approval workflow** | Cannot programmatically manage which reviews display |
+| Limitation                        | Impact                                               |
+| --------------------------------- | ---------------------------------------------------- |
+| **Maximum 5 reviews per request** | Cannot retrieve complete review history              |
+| **No pagination**                 | Stuck with "most relevant" 5 reviews only            |
+| **No filtering**                  | Cannot filter by date, rating, or other criteria     |
+| **Not real-time**                 | Reviews may have significant delays                  |
+| **Rate limits**                   | 100 requests per 100 seconds per project             |
+| **No approval workflow**          | Cannot programmatically manage which reviews display |
 
 ### Costs (as of 2024)
 
@@ -468,6 +493,7 @@ For properties **owned** by Flex Living:
 ### Implementation in `/api/reviews/google`
 
 The route has been implemented with:
+
 - ✅ Comprehensive documentation endpoint (when no API key)
 - ✅ Working integration (when API key provided)
 - ✅ Error handling for invalid Place IDs
@@ -485,29 +511,32 @@ The route has been implemented with:
 
 ## Key Design Decisions
 
-### 1. SQLite vs PostgreSQL
+### 1. PostgreSQL Database
 
-**Decision**: SQLite for demo, easy migration path to PostgreSQL
+**Decision**: PostgreSQL for development and production
 
 **Rationale**:
-- Zero configuration
-- File-based (easy backup and sharing)
-- Perfect for development and demos
-- Prisma makes switching to PostgreSQL trivial (change `datasource` only)
 
-**Migration Path**:
+- Production-ready with excellent performance
+- ACID compliance and data integrity
+- Advanced features like JSON/JSONB columns
+- Widely supported with excellent tooling
+- Scalable for production workloads
+- Native support for complex queries and indexing
+
+**Configuration**:
+
 ```prisma
-// Current (SQLite)
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
-// Production (PostgreSQL)
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+```
+
+**Connection String Format**:
+
+```
+postgresql://user:password@host:5432/dbname
 ```
 
 ### 2. SWR vs React Query
@@ -515,6 +544,7 @@ datasource db {
 **Decision**: SWR
 
 **Rationale**:
+
 - Lighter bundle size
 - Built by Vercel (same team as Next.js)
 - Simpler API for basic use cases
@@ -528,6 +558,7 @@ datasource db {
 **Decision**: NextAuth v5 beta
 
 **Rationale**:
+
 - Modern middleware support
 - Better TypeScript support
 - Cleaner API
@@ -540,6 +571,7 @@ datasource db {
 **Decision**: Client components for interactive pages, Server components where possible
 
 **Strategy**:
+
 - Dashboard pages: Client (SWR, state management)
 - API routes: Server (database access)
 - Static pages: Server where possible
@@ -551,16 +583,18 @@ datasource db {
 **Decision**: Store review categories as JSON string
 
 **Rationale**:
-- SQLite doesn't support JSON columns natively
+
 - Flexibility for different category structures per channel
-- Easy to migrate to JSONB in PostgreSQL
-- Prisma makes this transparent
+- Consistent data structure across all channels
+- Can be migrated to JSONB for better query performance if needed
+- Prisma makes JSON handling transparent
 
 ### 6. Denormalized listingName in Reviews
 
 **Decision**: Store `listingName` in Review table despite having `Listing` relation
 
 **Rationale**:
+
 - Query optimization (avoid joins for list views)
 - Historical accuracy (name changes don't affect old reviews)
 - Spec compliance (Hostaway API returns `listingName`)
@@ -570,6 +604,7 @@ datasource db {
 **Decision**: Boolean `isApproved` flag with default `false`
 
 **Rationale**:
+
 - Simple, clear logic
 - Default-deny is safer
 - Easy to extend to multi-state workflow later
@@ -580,6 +615,7 @@ datasource db {
 **Decision**: Recharts
 
 **Rationale**:
+
 - React-first (declarative JSX API)
 - Built on D3 (powerful underneath)
 - Composable architecture
@@ -592,6 +628,7 @@ datasource db {
 ### Manual Testing Checklist
 
 **Authentication**:
+
 - ✅ Login with valid credentials
 - ✅ Login with invalid credentials (error shown)
 - ✅ Protected routes redirect to login
@@ -599,12 +636,14 @@ datasource db {
 - ✅ Session persistence
 
 **Dashboard**:
+
 - ✅ Properties list with stats
 - ✅ Filtering and sorting
 - ✅ Navigation to property detail
 - ✅ Stats cards display correctly
 
 **Review Management**:
+
 - ✅ View all reviews for a property
 - ✅ Toggle approval status
 - ✅ Filter by channel
@@ -613,6 +652,7 @@ datasource db {
 - ✅ Category averages calculate correctly
 
 **Public Pages**:
+
 - ✅ Properties listing loads
 - ✅ Property detail page displays
 - ✅ Only approved reviews show
@@ -620,6 +660,7 @@ datasource db {
 - ✅ Amenities display
 
 **API Routes**:
+
 - ✅ `/api/reviews/hostaway` returns spec-compliant JSON
 - ✅ `/api/reviews` filters work correctly
 - ✅ `/api/reviews/approve` requires authentication
@@ -662,17 +703,16 @@ curl http://localhost:3000/api/reviews/google
 ### Database Backup
 
 ```bash
-# Backup SQLite database
-cp prisma/dev.db prisma/dev.db.backup
+# Backup PostgreSQL database
+pg_dump -U username -d dbname > backup.sql
 
 # Restore
-cp prisma/dev.db.backup prisma/dev.db
+psql -U username -d dbname < backup.sql
 ```
 
 ### Reset Database
 
 ```bash
-export DATABASE_URL="file:./dev.db"
 npx prisma migrate reset
 npm run db:seed
 ```
@@ -687,6 +727,5 @@ npm audit fix
 ---
 
 **Documentation Version**: 1.0  
-**Last Updated**: November 2025 
+**Last Updated**: November 2025
 **Author**: Flex Living Development Team
-
